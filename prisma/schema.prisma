@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+model Character {
+  id              Int         @id @default(autoincrement())
+  name            String    
+  adventurousName String      @unique
+  class           Class       @default(WARRIOR)
+  level           Int
+  strength        Int  
+  defense         Int
+  magicItems      MagicItem[]
+}
+
+
+
+model MagicItem {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  itemType   ItemType  @default(GUN)
+  strength   Int
+  defense    Int
+
+  owner      Character? @relation(fields: [ownerId], references: [id])
+  ownerId    Int?
+}
+
+
+enum Class {
+  WARRIOR
+  WIZARD
+  ARCHER
+  ROGUE
+  BARD
+}
+
+enum ItemType {
+  GUN
+  ARMOUR
+  AMULET
+}
+
+
+
