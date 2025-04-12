@@ -1,4 +1,4 @@
-import { IsEnum, IsInt, IsPositive, IsString, Max } from 'class-validator';
+import { IsEnum, IsInt, IsString, Max } from 'class-validator';
 
 export enum ItemType {
   GUN = 'GUN',

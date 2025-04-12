@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { CharacterService } from './character.service';
 import { CharacterInputDTO } from './dto/input/character-input.dto';
+import { GetCharacterInputDTO } from '../magic-item/dto/input/get-character.dto';
 
 @Controller('character')
 export class CharacterController {
@@ -25,15 +26,12 @@ export class CharacterController {
   }
 
   @Get(':id')
-  async handleGetCharacterById(@Param('id') id: string) {
+  async handleGetCharacterById(@Param('id') id: GetCharacterInputDTO) {
     return await this.characterService.getCharacterById(id);
   }
 
   @Put(':id')
-  async handleUpdateNameByCharacterId(
-    @Param('id') id: string,
-    @Body() name: string,
-  ) {
+  async handleUpdateNameByCharacterId(@Param('id') id, @Body() name) {
     return await this.characterService.updateNameByCharacterId({ name, id });
   }
 

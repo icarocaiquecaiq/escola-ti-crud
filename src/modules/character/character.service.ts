@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { CharacterInputDTO } from './dto/input/character-input.dto';
 import { PrismaService } from '../prisma.service';
+import { GetCharacterInputDTO } from '../magic-item/dto/input/get-character.dto';
 
 @Injectable()
 export class CharacterService {
@@ -63,7 +64,7 @@ export class CharacterService {
     return charactersWithStats;
   }
 
-  async getCharacterById(characterId: string) {
+  async getCharacterById(characterId: GetCharacterInputDTO) {
     const character = await this.prismaService.character.findUnique({
       where: { id: +characterId },
       include: {
