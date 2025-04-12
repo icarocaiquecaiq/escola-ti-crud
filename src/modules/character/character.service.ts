@@ -4,7 +4,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CharacterInputDTO } from './dto/input/character-input.dto';
-import { error } from 'console';
 import { PrismaService } from '../prisma.service';
 
 @Injectable()
@@ -96,7 +95,7 @@ export class CharacterService {
     };
   }
 
-  async amuletCharacterById(characterId: string) {
+  async getAmuletCharacterById(characterId: string) {
     const character = await this.prismaService.character.findUnique({
       where: { id: +characterId },
       include: {
@@ -109,7 +108,35 @@ export class CharacterService {
     if (!character) {
       throw new NotFoundException('Character not found');
     }
-    return character.magicItems.filter((e) => e.itemType === 'AMULET');
+
+    const amuletFounded = character.magicItems.filter(
+      (e) => e.itemType === 'AMULET',
+    );
+
+    if (amuletFounded.length === 0) {
+      throw new NotFoundException('Amulet not found in character');
+    }
+    return amuletFounded;
+  }
+
+  async getMagicItemCharacterById(characterId: string) {
+    const character = await this.prismaService.character.findUnique({
+      where: { id: +characterId },
+      include: {
+        magicItems: true,
+      },
+    });
+
+    if (!character) {
+      throw new NotFoundException('Character not found');
+    }
+
+    const allMagicItemByCharacter = character.magicItems;
+
+    if (allMagicItemByCharacter.length === 0) {
+      throw new NotFoundException('Magic item not found in character');
+    }
+    return allMagicItemByCharacter;
   }
 
   async updateNameByCharacterId(body: { name: string; id: string }) {

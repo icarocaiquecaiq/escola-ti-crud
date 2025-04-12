@@ -39,7 +39,14 @@ export class CharacterController {
 
   @Get('amulet/:id')
   async handleGetAmuletCharacterById(@Param('id') id: string) {
-    return await this.characterService.amuletCharacterById(id);
+    return await this.characterService.getAmuletCharacterById(id);
+  }
+
+  @Get(':characterId/magic-item')
+  async handleGetMagicItemCharacterById(
+    @Param('characterId') characterId: string,
+  ) {
+    return await this.characterService.getMagicItemCharacterById(characterId);
   }
 
   @Delete(':id')
